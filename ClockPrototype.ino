@@ -30,18 +30,18 @@ void clearStrip() {
 void showDate(int wp) {
   DateTime now = rtc.now();
   clearStrip();
-  
+
   int monthLight = now.month() - 1;
   int dateLight = dateLightSelector(now.day());
 
-  if(monthLight == dateLight){
-    clockLights.setPixelColor(monthLight, clockLights.Color(wp, wp/2, 0));
-  } else{
-      clockLights.setPixelColor(monthLight, clockLights.Color(wp, 0, 0));
-      clockLights.setPixelColor(dateLight, clockLights.Color(wp, wp, 0));
+  if (monthLight == dateLight) {
+    clockLights.setPixelColor(monthLight, clockLights.Color(wp, wp / 2, 0));
+  } else {
+    clockLights.setPixelColor(monthLight, clockLights.Color(wp, 0, 0));
+    clockLights.setPixelColor(dateLight, clockLights.Color(wp, wp, 0));
   }
 
-  
+
   int dateOnes = (now.day() / 1U) % 10;
 
   int dOneToFour = 0;
@@ -53,13 +53,13 @@ void showDate(int wp) {
     dOneToFour = dateOnes - 5;
   }
 
-  int lightsAlreadySet[4] = {12,12,12,12};
+  int lightsAlreadySet[4] = {12, 12, 12, 12};
   for (int d = 0; d < dOneToFour; d++) {
     int randomLight = random(0, 12);
     lightsAlreadySet[d] = randomLight;
 
-    while (randomLight == monthLight || randomLight == dateLight || randomLight == lightsAlreadySet[0]|| randomLight == lightsAlreadySet[1]|| randomLight == lightsAlreadySet[2]|| randomLight == lightsAlreadySet[3]) {
-       randomLight = random(0, 12);
+    while (randomLight == monthLight || randomLight == dateLight || randomLight == lightsAlreadySet[0] || randomLight == lightsAlreadySet[1] || randomLight == lightsAlreadySet[2] || randomLight == lightsAlreadySet[3]) {
+      randomLight = random(0, 12);
     }
     lightsAlreadySet[d] = randomLight;
     clockLights.setPixelColor(randomLight, clockLights.Color(wp, wp, wp));
@@ -68,7 +68,7 @@ void showDate(int wp) {
   clockLights.show();
 }
 
-void showHour(int wp){
+void showHour(int wp) {
   DateTime now = rtc.now();
   int currentHour = 0;
   bool pm = false;
@@ -80,20 +80,20 @@ void showHour(int wp){
   }
 
   clearStrip();
-  if(!pm)
+  if (!pm)
     clockLights.setPixelColor(currentHour, clockLights.Color(0, wp, 0));
   else
     clockLights.setPixelColor(currentHour, clockLights.Color(wp, 0, 0));
   clockLights.show();
 }
 
-void showMinutes(int wp){
+void showMinutes(int wp) {
   DateTime now = rtc.now();
   int minuteOnes = 0;
-  
+
   clearStrip();
   clockLights.setPixelColor(minuteLightSelector(now.minute()), clockLights.Color(0, 0, wp));
-  
+
   minuteOnes = (now.minute() / 1U) % 10;
 
   int mOneToFour = 0;
@@ -105,13 +105,13 @@ void showMinutes(int wp){
     mOneToFour = minuteOnes - 5;
   }
 
-  int lightsAlreadySet[4] = {12,12,12,12};
+  int lightsAlreadySet[4] = {12, 12, 12, 12};
   for (int m = 0; m < mOneToFour; m++) {
     int randomLight = random(0, 12);
     lightsAlreadySet[m] = randomLight;
 
-    while (randomLight == minuteLightSelector(now.minute()) || randomLight == lightsAlreadySet[0]|| randomLight == lightsAlreadySet[1]|| randomLight == lightsAlreadySet[2]|| randomLight == lightsAlreadySet[3]) {
-      
+    while (randomLight == minuteLightSelector(now.minute()) || randomLight == lightsAlreadySet[0] || randomLight == lightsAlreadySet[1] || randomLight == lightsAlreadySet[2] || randomLight == lightsAlreadySet[3]) {
+
       randomLight = random(0, 12);
     }
     lightsAlreadySet[m] = randomLight;
@@ -120,12 +120,44 @@ void showMinutes(int wp){
   clockLights.show();
 }
 
-void showMonth(int wp){
+void showMonth(int wp) {
   DateTime now = rtc.now();
   clearStrip();
-  
+
   int monthLight = now.month() - 1;
-  clockLights.setPixelColor(monthLight, clockLights.Color(wp, 0, 0);
+  clockLights.setPixelColor(monthLight, clockLights.Color(wp, 0, 0));
+  clockLights.show();
+}
+
+void showDay(int wp) {
+  DateTime now = rtc.now();
+  clearStrip();
+  int dateLight = dateLightSelector(now.day());
+  clockLights.setPixelColor(dateLight, clockLights.Color(wp, wp, 0));
+
+
+  int dateOnes = (now.day() / 1U) % 10;
+
+  int dOneToFour = 0;
+
+  if (dateOnes >= 0 && dateOnes <= 4) {
+    dOneToFour = dateOnes;
+  }
+  if (dateOnes >= 5) {
+    dOneToFour = dateOnes - 5;
+  }
+
+  int lightsAlreadySet[4] = {12, 12, 12, 12};
+  for (int d = 0; d < dOneToFour; d++) {
+    int randomLight = random(0, 12);
+    lightsAlreadySet[d] = randomLight;
+
+    while (randomLight == dateLight || randomLight == lightsAlreadySet[0] || randomLight == lightsAlreadySet[1] || randomLight == lightsAlreadySet[2] || randomLight == lightsAlreadySet[3]) {
+      randomLight = random(0, 12);
+    }
+    lightsAlreadySet[d] = randomLight;
+    clockLights.setPixelColor(randomLight, clockLights.Color(wp, wp, wp));
+  }
   clockLights.show();
 }
 
@@ -142,15 +174,15 @@ void showTime(int wp) {
   }
 
   clearStrip();
-  if(!pm)
+  if (!pm)
     clockLights.setPixelColor(currentHour, clockLights.Color(0, wp, 0));
   else
     clockLights.setPixelColor(currentHour, clockLights.Color(wp, 0, 0));
-    
+
   clockLights.setPixelColor(minuteLightSelector(now.minute()), clockLights.Color(0, 0, wp));
 
   if (currentHour == minuteLightSelector(now.minute())) {
-    if(!pm)
+    if (!pm)
       clockLights.setPixelColor(currentHour, clockLights.Color(0, wp, wp));
     else
       clockLights.setPixelColor(currentHour, clockLights.Color(wp, 0, wp));
@@ -166,13 +198,13 @@ void showTime(int wp) {
     mOneToFour = minuteOnes - 5;
   }
 
-  int lightsAlreadySet[4] = {12,12,12,12};
+  int lightsAlreadySet[4] = {12, 12, 12, 12};
   for (int m = 0; m < mOneToFour; m++) {
     int randomLight = random(0, 12);
     lightsAlreadySet[m] = randomLight;
 
-    while (randomLight == currentHour || randomLight == minuteLightSelector(now.minute()) || randomLight == lightsAlreadySet[0]|| randomLight == lightsAlreadySet[1]|| randomLight == lightsAlreadySet[2]|| randomLight == lightsAlreadySet[3]) {
-      
+    while (randomLight == currentHour || randomLight == minuteLightSelector(now.minute()) || randomLight == lightsAlreadySet[0] || randomLight == lightsAlreadySet[1] || randomLight == lightsAlreadySet[2] || randomLight == lightsAlreadySet[3]) {
+
       randomLight = random(0, 12);
     }
     lightsAlreadySet[m] = randomLight;
@@ -200,33 +232,33 @@ void setFlashlight(int brightness) {
   clockLights.show();
 }
 
-int dateLightSelector(int dayValue){
+int dateLightSelector(int dayValue) {
   int dayLight = 0;
-  if(dayValue < 5){
+  if (dayValue < 5) {
     dayLight = 0;
     return dayLight;
   }
-  if(dayValue >= 5 && dayValue < 10){
+  if (dayValue >= 5 && dayValue < 10) {
     dayLight = 12;
     return dayLight;
   }
-  if(dayValue >= 10 && dayValue < 15){
+  if (dayValue >= 10 && dayValue < 15) {
     dayLight = 1;
     return dayLight;
   }
-  if(dayValue >= 15 && dayValue < 20){
+  if (dayValue >= 15 && dayValue < 20) {
     dayLight = 2;
     return dayLight;
   }
-  if(dayValue >= 20 && dayValue < 25){
+  if (dayValue >= 20 && dayValue < 25) {
     dayLight = 3;
     return dayLight;
   }
-  if(dayValue >= 25 && dayValue < 30){
+  if (dayValue >= 25 && dayValue < 30) {
     dayLight = 4;
     return dayLight;
   }
-  if(dayValue >= 30){
+  if (dayValue >= 30) {
     dayLight = 5;
     return dayLight;
   }
@@ -311,7 +343,7 @@ void loop() {
     if (currentMode == sleep)
       currentMode = showtime;
     //if(currentMode == sethours)
-      //0=0;
+    //0=0;
   }
   if (downButton.tapped()) {
     if (currentMode == sleep)
@@ -321,8 +353,8 @@ void loop() {
     if (currentMode == sleep)
       currentMode = flashlight;
   }
-  if(upButton.doubleTapped()){
-    if(currentMode == showtime) currentMode = sethours;
+  if (upButton.doubleTapped()) {
+    if (currentMode == showtime) currentMode = sethours;
   }
 
   //actual mode code starts here
@@ -331,76 +363,76 @@ void loop() {
     Serial.println("Setting hours");
     int currentHour = 0;
     showHour(255);
-    while(currentMode == sethours){
+    while (currentMode == sethours) {
       upButton.update();
       downButton.update();
-      if(upButton.tapped()){
+      if (upButton.tapped()) {
         DateTime now = rtc.now();
         currentHour = now.hour();
         currentHour ++;
-        if(currentHour > 23)
+        if (currentHour > 23)
           currentHour = 0;
         Serial.print("Hour incremented: ");
         Serial.println(currentHour);
-        rtc.adjust(DateTime(now.year(), now.month(), now.day(), currentHour, now.minute(), 0));
+        rtc.adjust(DateTime(now.year(), now.month(), now.day(), currentHour, now.minute(), now.second()));
         showHour(255);
       }
-      if(downButton.tapped()){
+      if (downButton.tapped()) {
         DateTime now = rtc.now();
         currentHour = now.hour();
         currentHour --;
-        if(currentHour < 0)
+        if (currentHour < 0)
           currentHour = 23;
         Serial.print("Hour decremented: ");
         Serial.println(currentHour);
-        rtc.adjust(DateTime(now.year(), now.month(), now.day(), currentHour, now.minute(), 0));
+        rtc.adjust(DateTime(now.year(), now.month(), now.day(), currentHour, now.minute(), now.second()));
         showHour(255);
       }
-      if(upButton.held()){
+      if (upButton.held()) {
         clearStrip();
         Serial.println("Not setting hours any more");
         currentMode = setmins;
       }
     }
-    
+
   }
 
   if (currentMode == setmins) {
     Serial.println("Setting minutes");
     int currentMinute = 0;
     showMinutes(255);
-    while(currentMode == setmins){
+    while (currentMode == setmins) {
       upButton.update();
       downButton.update();
-      if(upButton.tapped()){
+      if (upButton.tapped()) {
         DateTime now = rtc.now();
         currentMinute = now.minute();
         currentMinute ++;
-        if(currentMinute > 59)
+        if (currentMinute > 59)
           currentMinute = 0;
         Serial.print("Minute incremented: ");
         Serial.println(currentMinute);
         rtc.adjust(DateTime(now.year(), now.month(), now.day(), now.hour(), currentMinute, 0));
         showMinutes(255);
       }
-      if(downButton.tapped()){
+      if (downButton.tapped()) {
         DateTime now = rtc.now();
         currentMinute = now.minute();
         currentMinute --;
-        if(currentMinute < 0)
+        if (currentMinute < 0)
           currentMinute = 59;
         Serial.print("Minute decremented: ");
         Serial.println(currentMinute);
         rtc.adjust(DateTime(now.year(), now.month(), now.day(), now.hour(), currentMinute, 0));
         showMinutes(255);
       }
-      if(upButton.held()){
+      if (upButton.held()) {
         clearStrip();
         Serial.println("Sleep time");
         currentMode = sleep;
       }
     }
-    
+
   }
 
   if (currentMode == showtime) {
@@ -413,9 +445,9 @@ void loop() {
     }
     showTime(255);
     unsigned long startDelayMillis = millis();
-    while(millis() - startDelayMillis < 3000){
+    while (millis() - startDelayMillis < 3000) {
       upButton.update();
-      if(upButton.held()){
+      if (upButton.held()) {
         currentMode = sethours;
         setTimeAfter = true;
         break;
@@ -427,26 +459,65 @@ void loop() {
       delay(10);
     }
     clearStrip();
-    if(!setTimeAfter){
-    currentMode = sleep;
+    if (!setTimeAfter) {
+      currentMode = sleep;
     }
   }
 
   if (currentMode == showdate) {
     Serial.println("Displaying date fancily");
+    bool setDateAfter = false;
     for (int i = 1; i < 15; i++) {
       showDate(17 * i);
       clockLights.show();
       delay(10);
     }
-    delay(3000);
+    showDate(255);
+    unsigned long startDelayMillis = millis();
+    while (millis() - startDelayMillis < 3000) {
+      downButton.update();
+      if (downButton.held()) {
+        currentMode = setmonth;
+        setDateAfter = true;
+        break;
+      }
+    }
     for (int i = 15; i > 1; i--) {
       showDate(17 * i);
       clockLights.show();
       delay(10);
     }
     clearStrip();
-    currentMode = sleep;
+    if(!setDateAfter)
+      currentMode = sleep;
+  }
+  
+  if (currentMode == setmonth) {
+    Serial.println("Setting month");
+    showMonth(255);
+    while (currentMode == setmonth) {
+      upButton.update();
+      downButton.update();
+      if (downButton.held()) {
+        clearStrip();
+        Serial.println("Not setting month any more");
+        currentMode = setday;
+      }
+    }
+  }
+  
+  if (currentMode == setday) {
+    Serial.println("Setting day");
+    showDay(255);
+    while (currentMode == setday) {
+      upButton.update();
+      downButton.update();
+      if (downButton.held()) {
+        clearStrip();
+        Serial.println("Sleepy time");
+        currentMode = sleep;
+      }
+    }
   }
 
   if (currentMode == flashlight) {
